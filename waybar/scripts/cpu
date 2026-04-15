@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+export LC_ALL=C
+
+CPU_PATH="$HOME/.config/waybar/scripts/cpu-psi/target/release/cpu-psi"
+
+if [ -x "$CPU_PATH" ]; then
+    output=$(timeout 1 "$CPU_PATH" 2>/dev/null | head -1)
+    if [ -n "$output" ]; then
+        usage=$(echo "$output" | jq -r '.text // empty' | grep -oP '\d+' | head -1)
+        load=$(echo "$output" | jq -r '.text // empty' | grep -oP 'Load\s+\K[0-9.]+')
+        tooltip="CPU: ${usage}%"
+        [ -n "$load" ] && tooltip="${tooltip}\nLoad: ${load}"
+        echo "{\"text\": \"󰻞 ${usage}%\", \"tooltip\": \"${tooltip}\", \"class\": \"\"}"
+        exit 0
+    fi
+fi
+
+cpu_usage=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print int(100 - $1)}')
+load=$(uptime | awk -F'load average:' '{print $2}' | awk '{print $1}' | tr -d ',')
+
+echo "{\"text\": \"󰻞 ${cpu_usage}%\", \"tooltip\": \"CPU: ${cpu_usage}%\\nLoad: ${load}\"}"

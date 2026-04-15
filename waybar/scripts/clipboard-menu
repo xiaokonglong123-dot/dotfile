@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+HISTORY_FILE="/tmp/clipboard_history"
+
+if [ ! -f "$HISTORY_FILE" ] || [ ! -s "$HISTORY_FILE" ]; then
+    wl-paste | xclip -sel clip 2>/dev/null
+    exit 0
+fi
+
+choices=$(tac "$HISTORY_FILE" | awk '!seen[$0]++' | head -10 | nl -w1 -s ' ')
+
+selected=$(echo -e "清空历史\n$choices" | wofi --dmenu --width=300 --height=300 -l 10 2>/dev/null)
+
+if [ "$selected" = "清空历史" ]; then
+    > "$HISTORY_FILE"
+elif [ -n "$selected" ]; then
+    content=$(echo "$selected" | sed 's/^[0-9]* //')
+    echo "$content" | wl-copy
+fi

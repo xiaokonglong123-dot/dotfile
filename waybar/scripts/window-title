@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+title=$(xdotool getactivewindow getwindowname 2>/dev/null | head -c 50)
+if [ -n "$title" ]; then
+    if [ ${#title} -gt 40 ]; then
+        title="${title:0:40}..."
+    fi
+    echo "{\"text\": \"$title\"}"
+else
+    echo '{"text": ""}'
+fi

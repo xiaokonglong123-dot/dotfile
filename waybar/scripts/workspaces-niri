@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+workspaces=$(niri msg workspaces 2>/dev/null)
+if [ -z "$workspaces" ]; then
+    echo '{"text": ""}'
+    exit 0
+fi
+
+result=""
+while IFS= read -r line; do
+    stripped=$(echo "$line" | sed 's/^[[:space:]]*//')
+    if [[ "$stripped" == "*"* ]]; then
+        num=$(echo "$stripped" | sed 's/\*//' | tr -d ' ')
+        result="${result} <span color='#89b4fa'>●</span> "
+    elif [[ "$stripped" =~ ^[0-9] ]]; then
+        result="${result} <span color='#45475a'>○</span> "
+    fi
+done <<< "$workspaces"
+
+echo "{\"text\": \"$result\"}"

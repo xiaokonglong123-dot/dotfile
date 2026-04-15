@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+case "$(printf "󰤆 关机\n󰑪 重启\n󰐦 注销\n󰁹 锁定" | fuzzel --dmenu)" in
+    "󰤆 关机") systemctl poweroff ;;
+    "󰑪 重启") systemctl reboot ;;
+    "󰐦 注销") hyprctl dispatch exit ;;
+    "󰁹 锁定") swaylock -f ;;
+esac

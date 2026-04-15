@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+weather=$(curl -s --max-time 5 "wttr.in/?format=j1" 2>/dev/null || echo "")
+
+if [ -n "$weather" ]; then
+    temp=$(echo "$weather" | jq -r '.current_condition[0].temp_C' 2>/dev/null)
+    desc=$(echo "$weather" | jq -r '.current_condition[0].weatherDesc[0].value' 2>/dev/null)
+    code=$(echo "$weather" | jq -r '.current_condition[0].weatherCode[0]' 2>/dev/null)
+    
+    case "$code" in
+        113) icon="󰼢" ;;
+        116|119) icon="󰼤" ;;
+        122) icon="󰼥" ;;
+        *) icon="󰼧" ;;
+    esac
+    
+    echo "{\"text\": \"${icon} ${temp}°C\", \"tooltip\": \"${desc}\"}"
+else
+    echo "{\"text\": \"󰼢 --\", \"tooltip\": \"Weather unavailable\"}"
+fi

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+df -h / /home | awk 'NR==2 {print int($5)}' | while read usage; do
+    root=$(df -h / | awk 'NR==2 {print $3" / "$2}')
+    home=$(df -h /home | awk 'NR==2 {print $3" / "$2}')
+    echo "{\"text\": \"󰋊 ${usage}%\", \"tooltip\": \"Root: ${root}\\nHome: ${home}\"}"
+done

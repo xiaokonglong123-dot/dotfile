@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if playerctl status &>/dev/null; then
+    status=$(playerctl status)
+    if [ "$status" = "Playing" ]; then
+        title=$(playerctl metadata title 2>/dev/null | cut -c1-20)
+        artist=$(playerctl metadata artist 2>/dev/null | cut -c1-15)
+        echo "{\"text\": \"󰎖 ${title}\", \"tooltip\": \"${title} - ${artist}\", \"class\": \"playing\"}"
+    else
+        echo "{\"text\": \"󰐌 paused\", \"tooltip\": \"Paused\", \"class\": \"paused\"}"
+    fi
+else
+    echo "{\"text\": \"󰎖 --\", \"tooltip\": \"No player\"}"
+fi

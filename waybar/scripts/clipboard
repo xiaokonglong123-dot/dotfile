@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+clipboard=$(wl-paste --no-newline 2>/dev/null)
+if [ -n "$clipboard" ]; then
+    preview=$(echo "$clipboard" | cut -c1-40 | tr '\n' ' ')
+    echo "{\"text\": \"󰅴\", \"tooltip\": \"$preview\"}"
+else
+    echo '{"text": "󰅴", "tooltip": "剪贴板为空"}'
+fi

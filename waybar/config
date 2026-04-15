@@ -1,0 +1,133 @@
+[{
+  "height": 32,
+  "output": "eDP-1",
+  "modules-left": ["custom/launcher", "custom/workspaces"],
+  "modules-center": ["clock", "custom/weather"],
+  "modules-right": ["tray", "custom/cpu", "memory", "battery", "backlight", "bluetooth", "network", "pulseaudio", "custom/microphone", "custom/clipboard", "custom/power"],
+  "layer": "top",
+  "position": "top",
+  "exclusive": true,
+  "gtk-layer": true,
+  "spacing": 6,
+
+  "custom/workspaces": {
+    "exec": "~/.config/waybar/scripts/workspaces-niri",
+    "return-type": "json",
+    "interval": 1
+  },
+
+  "clock": {
+    "format": "󰃭 {:%H:%M}",
+    "format-alt": "󰃭 {:%Y年%m月%d日 %A}",
+    "tooltip-format": "<big>{:%Y年%m月%d日}</big>\n\n{calendar}",
+    "interval": 1
+  },
+
+  "memory": {
+    "format": "󰾵 {}%",
+    "interval": 30,
+    "tooltip-format": "Used: {used} / Total: {total}"
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "󰁺 {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰂃"],
+    "tooltip-format": "电量: {capacity}%\n功率: {power} W\n{timeTo}\n健康度: {health}%"
+  },
+
+  "bluetooth": {
+    "format": "󰂯 {status}",
+    "format-connected": "󰂱 {num-connected} 连接",
+    "format-icons": {
+      "enabled": "󰂯",
+      "disabled": "󰤭"
+    },
+    "tooltip-format": "状态: {status}",
+    "on-click": "alacritty -e bluetui",
+    "interval": 5
+  },
+
+  "pulseaudio": {
+    "format": "󰕾 {volume}%",
+    "format-muted": "󰝟 Muted",
+    "format-icons": {
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-click-right": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
+  },
+
+  "backlight": {
+    "device": "amdgpu_bl1",
+    "format": "󰃞 {percent}%",
+    "format-icons": ["󰛩", "󰛪", "󰛫", "󰛬", "󰛭", "󰛮", "󰛯", "󰛰", "󰛱", "󰛲"],
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "min-step": 5
+  },
+
+  "custom/clipboard": {
+    "exec": "~/.config/waybar/scripts/clipboard",
+    "return-type": "json",
+    "interval": 5,
+    "on-click": "bash ~/.config/waybar/scripts/clipboard-menu"
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 6
+  },
+
+  "network": {
+    "format-wifi": "{icon}  {essid}",
+    "format-ethernet": "󰈀 Ethernet",
+    "format-disconnected": "󰤭 Disconnected",
+    "format-icons": ["󰤉", "󰤈", "󰤆", "󰤅", "󰤨"],
+    "tooltip-format": "{ifname}\nSSID: {essid}\nIP: {ipaddr}",
+    "on-click": "alacritty -e impala",
+    "interval": 5
+  },
+
+  "custom/launcher": {
+    "format": "󰣇",
+    "on-click": "fuzzel --show drun",
+    "tooltip": false
+  },
+
+  "custom/cpu": {
+    "exec": "~/.config/waybar/scripts/cpu",
+    "return-type": "json",
+    "interval": 5,
+    "tooltip": true
+  },
+
+  "custom/weather": {
+    "exec": "~/.config/waybar/scripts/weather",
+    "return-type": "json",
+    "interval": 900,
+    "tooltip": true
+  },
+
+  "custom/power": {
+    "format": "󰤎",
+    "on-click": "~/.config/waybar/scripts/power-menu",
+    "tooltip": "Power Menu"
+  },
+
+  "custom/microphone": {
+    "exec": "~/.config/waybar/scripts/microphone",
+    "return-type": "json",
+    "interval": 5,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+    "on-click-right": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 2%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 2%-"
+  }
+}]

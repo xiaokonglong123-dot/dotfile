@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+mic=$(wpctl get-volume @DEFAULT_SOURCE@ 2>/dev/null)
+if [ -n "$mic" ]; then
+    muted=$(echo "$mic" | grep -o "MUTED" || echo "")
+    volume=$(echo "$mic" | awk '{print int($3*100)}')
+    
+    if [ "$muted" = "MUTED" ]; then
+        echo '{"text": "󰭞", "tooltip": "麦克风已静音", "class": "muted"}'
+    elif [ -z "$volume" ] || [ "$volume" -eq 0 ]; then
+        echo '{"text": "󰭞", "tooltip": "麦克风: 0%"}'
+    else
+        echo '{"text": "󰜎", "tooltip": "麦克风: '$volume'%"}'
+    fi
+else
+    echo '{"text": "󰜎", "tooltip": "麦克风"}'
+fi

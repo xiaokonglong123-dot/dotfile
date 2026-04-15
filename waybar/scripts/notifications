@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+count=$(makoctl list 2>/dev/null | wc -l)
+if [ "$count" -gt 0 ]; then
+    echo "{\"text\": \"󰂝 ${count}\", \"tooltip\": \"${count} notifications\", \"class\": \"unread\"}"
+else
+    echo "{\"text\": \"󰂝\", \"tooltip\": \"No notifications\"}"
+fi

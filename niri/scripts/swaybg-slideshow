@@ -1,0 +1,12 @@
+#!/bin/bash
+
+DIR="${1:-/home/yzp/Pictures/Wallpapers}"
+INTERVAL="${2:-300}"
+
+while true; do
+  pics=( "$DIR"/*.{jpg,jpeg,png,gif,webp,bmp} )
+  (( ${#pics[@]} )) || exit 1
+  img="${pics[ RANDOM % ${#pics[@]} ]}"
+  swaybg -i "$img" -m fill
+  sleep "$INTERVAL"
+done

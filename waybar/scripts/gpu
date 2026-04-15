@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if command -v nvidia-smi &> /dev/null; then
+    gpu_temp=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null || echo "0")
+    gpu_mem=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits 2>/dev/null || echo "0")
+    gpu_util=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null || echo "0")
+    echo "{\"text\": \"󰢮 ${gpu_util}%\", \"tooltip\": \"GPU Usage: ${gpu_util}%\\nMemory: ${gpu_mem}MB\\nTemp: ${gpu_temp}°C\"}"
+elif command -v rocm-smi &> /dev/null; then
+    gpu_temp=$(rocm-smi --showtemp | grep -oP '\d+' | head -1 || echo "0")
+    gpu_util=$(rocm-smi --showuse | grep -oP '\d+' | head -1 || echo "0")
+    echo "{\"text\": \"󰢮 ${gpu_util}%\", \"tooltip\": \"GPU Usage: ${gpu_util}%\\nTemp: ${gpu_temp}°C\"}"
+else
+    echo "{\"text\": \"󰢮 --%\", \"tooltip\": \"No GPU detected\"}"
+fi
