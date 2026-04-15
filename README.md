@@ -1,0 +1,2 @@
+# dotfile
+my niri+waybar
