@@ -177,13 +177,4 @@ spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLA
 
 欢迎提交 Issue 和 Pull Request！
 
-## 📮 联系方式
-
-如有问题或建议，欢迎通过以下方式联系：
-
-- GitHub Issues: [创建 Issue](https://github.com/yourusername/dotfile/issues)
-- Email: your.email@example.com
-
----
-
 **注意**: 本配置主要针对 Arch Linux 和其他基于 Arch 的发行版，其他发行版可能需要适当调整。
